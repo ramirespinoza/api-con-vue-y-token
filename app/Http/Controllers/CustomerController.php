@@ -7,6 +7,12 @@ use App\Customer;
 
 class CustomerController extends Controller
 {
+    //** API METHODS */
+    public function updateCustomer(Request $request) {
+        $this->update($request->all(),$request->id);
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -37,7 +43,7 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        
+
 
         $this->validate($request, [
             'name' => 'required',
@@ -99,7 +105,16 @@ class CustomerController extends Controller
         ]);
 
         Customer::find($id)->update($request->all());
-        return;
+
+        if($request->path() == 'api/update-customer/' . $id) {
+            return response()->json([
+                'customer' => $request->all(),
+                'operation' => 'update',
+                'status' => 'successful'
+            ]);
+        } else {
+            return;
+        }
     }
 
     /**
