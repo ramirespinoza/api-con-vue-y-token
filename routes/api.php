@@ -19,7 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('get-customers', [CustomerController::class, 'getCustomers'])->name('api-customers-get');
+Route::get('get-customers', [CustomerController::class, 'index'])->name('api-customers-get');
 
 Route::post('create-customer', [CustomerController::class, 'store'])->name('api-customers-create');
 

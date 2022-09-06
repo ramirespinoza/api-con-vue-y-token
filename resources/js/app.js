@@ -127,8 +127,6 @@ const app = new Vue({
                 this.getToast("Customer created.");
             }).catch(error =>{
                 this.errors = error.response.data
-                $
-
             })
             
 

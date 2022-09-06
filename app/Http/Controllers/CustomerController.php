@@ -7,17 +7,22 @@ use App\Customer;
 
 class CustomerController extends Controller
 {
-    //** API METHODS */
-    public function updateCustomer(Request $request) {
-        $this->update($request->all(),$request->id);
-    }
+    //** API METHODS */SS
 
     public function deleteCustomer(Request $request, $id) {
         
-       
-        $customer = Customer::findOrFail($id);
+        try {
+            $customer = Customer::findOrFail($id);
 
-        $customer->delete();
+            $customer->delete();
+        } catch (\Throwable $th) {
+            return response()->json([
+                'customer' => $customer,
+                'operation' => 'delete',
+                'status' => 'failed'
+            ]);    
+        }
+        
 
         return response()->json([
             'customer' => $customer,
@@ -57,16 +62,26 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-
-
-        $this->validate($request, [
-            'name' => 'required',
-            'address' => 'required',
-            'phone_number' => 'required',
-        ]);
-
-        Customer::create($request->all());
-
+        
+        try {
+            $this->validate($request, [
+                'name' => 'required',
+                'address' => 'required',
+                'phone_number' => 'required',
+            ]);
+    
+            Customer::create($request->all());
+        } catch (\Throwable $th) {
+            if($request->path() == 'api/create-customer') {
+                return response()->json([
+                    'customer' => $request->all(),
+                    'operation' => 'create',
+                    'status' => 'failed'
+                ]);
+            } else {
+                throw $th;;
+            }
+        }
 
         if($request->path() == 'api/create-customer') {
             return response()->json([
@@ -112,14 +127,27 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'address' => 'required',
-            'phone_number' => 'required',
-        ]);
-
-        Customer::find($id)->update($request->all());
-
+        try {
+            $this->validate($request, [
+                'name' => 'required',
+                'address' => 'required',
+                'phone_number' => 'required',
+            ]);
+    
+            Customer::find($id)->update($request->all());
+    
+        } catch (\Throwable $th) {
+            if($request->path() == 'api/update-customer/' . $id) {
+                return response()->json([
+                    'customer' => $request->all(),
+                    'operation' => 'update',
+                    'status' => 'successful'
+                ]);
+            } else {
+                throw $th;
+            }
+        }
+        
         if($request->path() == 'api/update-customer/' . $id) {
             return response()->json([
                 'customer' => $request->all(),
