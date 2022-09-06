@@ -12,6 +12,20 @@ class CustomerController extends Controller
         $this->update($request->all(),$request->id);
     }
 
+    public function deleteCustomer(Request $request, $id) {
+        
+       
+        $customer = Customer::findOrFail($id);
+
+        $customer->delete();
+
+        return response()->json([
+            'customer' => $customer,
+            'operation' => 'delete',
+            'status' => 'successful'
+        ]);        
+    }
+
 
     /**
      * Display a listing of the resource.

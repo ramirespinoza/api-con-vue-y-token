@@ -24,3 +24,5 @@ Route::get('get-customers', [CustomerController::class, 'getCustomers'])->name('
 Route::post('create-customer', [CustomerController::class, 'store'])->name('api-customers-create');
 
 Route::put('update-customer/{id}', [CustomerController::class, 'update'])->name('api-customers-update');
+
+Route::delete('delete-customer/{id}', [CustomerController::class, 'deleteCustomer'])->name('api-customers-delete');
