@@ -124,7 +124,7 @@ const app = new Vue({
                 this.errors = [];
                 document.getElementById('close-modal').click();
                 //document.getElementById('create').ariaModal;
-                this.getToast("Customer created.")
+                this.getToast("Customer created.");
             }).catch(error =>{
                 this.errors = error.response.data
                 $

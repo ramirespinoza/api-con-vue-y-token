@@ -37,6 +37,8 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
+        
+
         $this->validate($request, [
             'name' => 'required',
             'address' => 'required',
@@ -45,7 +47,16 @@ class CustomerController extends Controller
 
         Customer::create($request->all());
 
-        return;
+
+        if($request->path() == 'api/create-customer') {
+            return response()->json([
+                'customer' => $request->all(),
+                'operation' => 'create',
+                'status' => 'successful'
+            ]);
+        } else {
+            return;
+        }
     }
 
     /**

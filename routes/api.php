@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,4 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('get-customers', [App\Http\Controllers\CustomerController::class, 'getCustomers'])->name('api-get-customers');
+Route::get('get-customers', [CustomerController::class, 'getCustomers'])->name('api-customers-get');
+
+Route::post('create-customer', [CustomerController::class, 'store'])->name('api-customers-create');
