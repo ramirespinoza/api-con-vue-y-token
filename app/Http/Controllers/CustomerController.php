@@ -19,7 +19,8 @@ class CustomerController extends Controller
             return response()->json([
                 'customer' => $customer,
                 'operation' => 'delete',
-                'status' => 'failed'
+                'status' => 'failed',
+                'code' => '0'
             ]);    
         }
         
@@ -27,7 +28,8 @@ class CustomerController extends Controller
         return response()->json([
             'customer' => $customer,
             'operation' => 'delete',
-            'status' => 'successful'
+            'status' => 'successful',
+            'code' => '1'
         ]);        
     }
 
@@ -39,9 +41,10 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::orderBy('id', 'DESC')->get();
+        
+            $customers = Customer::orderBy('id', 'DESC')->get();
 
-        return $customers;
+            return $customers;
     }
 
     /**
@@ -62,36 +65,39 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
+       
+            try {
+                $this->validate($request, [
+                    'name' => 'required',
+                    'address' => 'required',
+                    'phone_number' => 'required',
+                ]);
         
-        try {
-            $this->validate($request, [
-                'name' => 'required',
-                'address' => 'required',
-                'phone_number' => 'required',
-            ]);
-    
-            Customer::create($request->all());
-        } catch (\Throwable $th) {
+                Customer::create($request->all());
+            } catch (\Throwable $th) {
+                if($request->path() == 'api/create-customer') {
+                    return response()->json([
+                        'customer' => $request->all(),
+                        'operation' => 'create',
+                        'status' => 'failed',
+                        'code' => '0'
+                    ]);
+                } else {
+                    throw $th;;
+                }
+            }
+
             if($request->path() == 'api/create-customer') {
                 return response()->json([
                     'customer' => $request->all(),
                     'operation' => 'create',
-                    'status' => 'failed'
+                    'status' => 'successful',
+                    'code' => '1'
                 ]);
             } else {
-                throw $th;;
+                return;
             }
-        }
-
-        if($request->path() == 'api/create-customer') {
-            return response()->json([
-                'customer' => $request->all(),
-                'operation' => 'create',
-                'status' => 'successful'
-            ]);
-        } else {
-            return;
-        }
+        
     }
 
     /**
@@ -127,36 +133,39 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try {
-            $this->validate($request, [
-                'name' => 'required',
-                'address' => 'required',
-                'phone_number' => 'required',
-            ]);
-    
-            Customer::find($id)->update($request->all());
-    
-        } catch (\Throwable $th) {
+            try {
+                $this->validate($request, [
+                    'name' => 'required',
+                    'address' => 'required',
+                    'phone_number' => 'required',
+                ]);
+        
+                Customer::find($id)->update($request->all());
+        
+            } catch (\Throwable $th) {
+                if($request->path() == 'api/update-customer/' . $id) {
+                    return response()->json([
+                        'customer' => $request->all(),
+                        'operation' => 'update',
+                        'status' => 'failed',
+                        'code' => '0'
+                    ]);
+                } else {
+                    throw $th;
+                }
+            }
+            
             if($request->path() == 'api/update-customer/' . $id) {
                 return response()->json([
                     'customer' => $request->all(),
                     'operation' => 'update',
-                    'status' => 'successful'
+                    'status' => 'successful',
+                    'code' => '1'
                 ]);
             } else {
-                throw $th;
+                return;
             }
-        }
         
-        if($request->path() == 'api/update-customer/' . $id) {
-            return response()->json([
-                'customer' => $request->all(),
-                'operation' => 'update',
-                'status' => 'successful'
-            ]);
-        } else {
-            return;
-        }
     }
 
     /**
