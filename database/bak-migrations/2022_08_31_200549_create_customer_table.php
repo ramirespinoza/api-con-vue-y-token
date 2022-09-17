@@ -18,6 +18,7 @@ class CreateCustomerTable extends Migration
             $table->string('name', 75);
             $table->string('address', 250);
             $table->string('phone_number', 25);
+            $table->bigInteger('user_id');
             $table->timestamps();
         });
     }

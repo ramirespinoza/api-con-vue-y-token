@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\AuthController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,14 +17,19 @@ use App\Http\Controllers\CustomerController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('get-customers', [CustomerController::class, 'index'])->name('api-customers-get');
 
-Route::post('create-customer', [CustomerController::class, 'store'])->name('api-customers-create');
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/infouser', [AuthController::class, 'infoUser'])->middleware('auth:sanctum');
 
-Route::put('update-customer/{id}', [CustomerController::class, 'update'])->name('api-customers-update');
+Route::get('get-customers', [CustomerController::class, 'getCustomers'])->name('api-customers-get')->middleware('auth:sanctum');;
 
-Route::delete('delete-customer/{id}', [CustomerController::class, 'deleteCustomer'])->name('api-customers-delete');
+Route::post('create-customer', [CustomerController::class, 'store'])->name('api-customers-create')->middleware('auth:sanctum');
+
+Route::put('update-customer/{id}', [CustomerController::class, 'update'])->name('api-customers-update')->middleware('auth:sanctum');
+
+Route::delete('delete-customer/{id}', [CustomerController::class, 'deleteCustomer'])->name('api-customers-delete')->middleware('auth:sanctum');

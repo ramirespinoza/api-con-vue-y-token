@@ -74,6 +74,8 @@ const app = new Vue({
             Axios.get(urlCustomers).then(response => {
                 console.log(response.data);
                 this.customers = response.data
+            }).catch(error => {
+                console.log(error.response.data);
             });
         },
         editCustomer: function(customer) {

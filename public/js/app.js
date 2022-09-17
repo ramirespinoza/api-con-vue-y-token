@@ -54184,6 +54184,8 @@ var app = new Vue({
       Axios.get(urlCustomers).then(function (response) {
         console.log(response.data);
         _this.customers = response.data;
+      })["catch"](function (error) {
+        console.log(error.response.data);
       });
     },
     editCustomer: function editCustomer(customer) {
@@ -54244,7 +54246,6 @@ var app = new Vue({
         _this4.getToast("Customer created.");
       })["catch"](function (error) {
         _this4.errors = error.response.data;
-        jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
       });
     }
   }
@@ -54384,8 +54385,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/cdramirez/workspace/vue/exercises/api-con-vue/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/cdramirez/workspace/vue/exercises/api-con-vue/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/cdramirez/workspace/vue/exercises/api-con-vue-y-token/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/cdramirez/workspace/vue/exercises/api-con-vue-y-token/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

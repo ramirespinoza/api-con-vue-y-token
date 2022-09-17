@@ -17,6 +17,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">Address</th>
                 <th scope="col">Phone Number</th>
+                <th scope="col">User</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,6 +26,7 @@
                     <td>@{{ customer.name }}</td>
                     <td>@{{ customer.address}}</td>
                     <td>@{{ customer.phone_number }}</td>
+                    <td>@{{ customer.user_email }}</td>
                     <td width="10px" ><a href="#" class="btn btn-warning btn-sm" v-on:click.prevent="editCustomer(customer)">Edit</a> </td>
                     <td width="10px" ><a href="#" class="btn btn-danger btn-sm" v-on:click.prevent="deleteCustomer(customer.id)">Delete</a></td>
                 </tr>

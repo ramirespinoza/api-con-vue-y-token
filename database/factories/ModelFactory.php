@@ -1,5 +1,6 @@
 <?php
-
+use App\Customer;
+use Faker\Generator as Faker;
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -11,10 +12,11 @@
 |
 */
 
-$factory->define(App\Customer::class, function (Faker\Generator $faker) {
+$factory->define(Customer::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'address' => $faker->address,
         'phone_number' => $faker->phoneNumber,
+        'user_id' => $faker->numberBetween($min = 1, $max = 5)
     ];
 });
